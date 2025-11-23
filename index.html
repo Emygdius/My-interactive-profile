@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Profile | Adams Wisdom Ekene</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 
+      Chosen Palette: "Calm Harmony" (Warm Neutrals: bg-gray-50, bg-white, text-gray-800) with a "Professional Blue" accent (blue-600, blue-700).
+      Application Structure Plan: I've re-architected the linear CV into a tab-based single-page application (SPA). The structure consists of a main header, a tabbed navigation bar (Overview, Skills, Career Journey, Education), and a main content area where one "page" is shown at a time. This dashboard-like approach allows a user (e.g., recruiter) to non-linearly explore the information. The "Skills" section uses a chart for high-level competency and filters for specific tools. The "Career Journey" section uses an interactive timeline, where clicking a job title dynamically updates the details panel. This structure was chosen for usability, making the content more engaging and digestible than a standard text document.
+      Visualization & Content Choices:
+      - Info: Key Skills (grouped). Goal: Compare strengths. Viz: Radar Chart. Interaction: Visual comparison. Justification: Provides an "at-a-glance" profile of competencies. Library: Chart.js.
+      - Info: Specific Tools (CRM, MS Office, etc.). Goal: Organize/Inform. Viz: Button Filters & Text Grid. Interaction: Clicking a filter (e.g., "CRM") hides/shows relevant tools. Justification: Manages a long list of tools, making it easy to find specifics. Library: Vanilla JS.
+      - Info: Work Experience. Goal: Show change/progression. Viz: Vertical Timeline (as navigation) + Details Panel. Interaction: Clicking a job on the timeline displays its details in the panel. Justification: Far more interactive and focused than a long scrolling list. Library: Vanilla JS.
+      - Info: Summary, Education, Certs. Goal: Inform. Viz: Styled text cards. Interaction: None. Justification: Clear, legible presentation. Library: HTML/Tailwind.
+      CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 400px;
+        }
+      }
+      .page-content {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .nav-link.active {
+        background-color: #2563EB; 
+        color: white;
+      }
+      .timeline-link.active {
+        border-color: #2563EB;
+        background-color: #EFF6FF;
+      }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 leading-relaxed">
+
+    <div class="container mx-auto p-4 py-8 md:p-12 max-w-6xl">
+
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-900">Adams Wisdom Ekene</h1>
+                    <p class="text-xl text-blue-700 font-medium">Team Lead | Customer Support Specialist | Business Management Professional</p>
+                </div>
+                <div class="text-right mt-4 md:mt-0 text-sm">
+                    <a href="mailto:Wisdomadams14@gmail.com" class="block text-gray-600 hover:text-blue-700">Wisdomadams14@gmail.com</a>
+                    <a href="tel:+2349157460005" class="block text-gray-600 hover:text-blue-700">+234 915 746 0005</a>
+                    <p class="text-gray-500">Lagos, Nigeria</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- SPA Navigation -->
+        <nav class="flex flex-wrap items-center gap-2 bg-white rounded-lg shadow-sm p-3 mb-8">
+            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150 active" data-page="overview">Overview</button>
+            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150" data-page="skills">Skills Dashboard</button>
+            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150" data-page="journey">Career Journey</button>
+            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150" data-page="education">Education & Certs</button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="content-area">
+
+            <!-- Overview Page -->
+            <section id="overview-content" class="page-content">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">Professional Summary</h2>
+                    <p class="text-base text-gray-700">
+                        This section provides a high-level summary of my professional identity and goals. It's the "at-a-glance" introduction to my profile, highlighting my core background in customer experience, leadership, and my passion for learning and communication.
+                    </p>
+                    <p class="mt-4 text-gray-700">
+                        I am a motivated and adaptable professional with a solid background in customer experience, research, education support, and team leadership. I am currently pursuing a degree in Applied Business Management and passionate about learning and communication. Eager to support everyone with empathy, structured guidance, and cross-functional collaboration. Skilled in working with diverse team members, handling administrative responsibilities, and delivering structured assistance in dynamic environments.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Skills Dashboard Page -->
+            <section id="skills-content" class="page-content hidden">
+                 <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">Skills Dashboard</h2>
+                    <p class="text-base text-gray-700 mb-6">
+                        This dashboard offers an interactive look at my skill set. The "Key Competencies" chart visualizes my strengths across major business functions. Below, you can use the filters to explore the specific technical tools and software I'm proficient with.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Key Competencies</h3>
+                            <div class="chart-container">
+                                <canvas id="skillsRadarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Tool Proficiency</h3>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <button class="skill-filter py-1 px-3 bg-blue-100 text-blue-800 rounded-full text-sm font-medium active" data-filter="all">All Tools</button>
+                                <button class="skill-filter py-1 px-3 bg-gray-100 text-gray-700 rounded-full text-sm font-medium" data-filter="crm">CRM</button>
+                                <button class="skill-filter py-1 px-3 bg-gray-100 text-gray-700 rounded-full text-sm font-medium" data-filter="office">Office/Productivity</button>
+                                <button class="skill-filter py-1 px-3 bg-gray-100 text-gray-700 rounded-full text-sm font-medium" data-filter="admin">Admin</button>
+                            </div>
+                            <div id="tools-grid" class="grid grid-cols-2 gap-x-4 gap-y-2">
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="crm">Odoo</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="crm">Zoho</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="crm">HubSpot</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Microsoft Word</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Microsoft Excel</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Microsoft PowerPoint</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Google Workspace</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="admin">QuickBooks</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="admin">Admin Software</span>
+                                <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Document Sharing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Career Journey Page -->
+            <section id="journey-content" class="page-content hidden">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">Interactive Career Journey</h2>
+                    <p class="text-base text-gray-700 mb-6">
+                        This section illustrates my professional progression. Click on any job title in the timeline on the left to see the detailed responsibilities and achievements for that role displayed on the right. This allows you to explore my experience one step at a time.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        <!-- Timeline Navigation -->
+                        <div class="md:col-span-1">
+                            <div id="timeline-nav" class="space-y-4 relative before:absolute before:inset-0 before:w-0.5 before:bg-gray-200 before:left-3.5">
+                                
+                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-blue-50" data-target="job-bukka">
+                                    <div class="absolute w-4 h-4 bg-gray-200 rounded-full left-1.5 top-5"></div>
+                                    <h4 class="font-semibold text-gray-800">Customer Support Agent</h4>
+                                    <p class="text-sm text-gray-500">2023 - 2025</p>
+                                </button>
+                                
+                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-blue-50" data-target="job-thematic">
+                                    <div class="absolute w-4 h-4 bg-gray-200 rounded-full left-1.5 top-5"></div>
+                                    <h4 class="font-semibold text-gray-800">Business Development Intern</h4>
+                                    <p class="text-sm text-gray-500">Mar 2024 - Apr 2024</p>
+                                </button>
+
+                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-blue-50" data-target="job-realtor">
+                                    <div class="absolute w-4 h-4 bg-gray-200 rounded-full left-1.5 top-5"></div>
+                                    <h4 class="font-semibold text-gray-800">Site Manager</h4>
+                                    <p class="text-sm text-gray-500">2022 - 2023</p>
+                                </button>
+
+                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-blue-50" data-target="job-freelance">
+                                    <div class="absolute w-4 h-4 bg-gray-200 rounded-full left-1.5 top-5"></div>
+                                    <h4 class="font-semibold text-gray-800">Field Agent - Freelance</h4>
+                                    <p class="text-sm text-gray-500">2021 - 2024</p>
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <!-- Journey Details -->
+                        <div id="journey-details" class="md:col-span-2">
+                            
+                            <div id="job-bukka" class="job-detail p-4 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold text-gray-900">Customer Support Agent</h3>
+                                <p class="text-md font-medium text-blue-700 mb-3">Bukka Hospitality Limited - Lagos, Nigeria</p>
+                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
+                                    <li>Provided frontline support through phone, email, and chat channels, emphasizing empathy and clarity.</li>
+                                    <li>Collaborated with internal teams to resolve customer issues and improve service quality.</li>
+                                    <li>Conducted customer retention campaigns and assist in lead generation.</li>
+                                    <li>Adapted communication style to suit different personalities and comprehension levels.</li>
+                                    <li>Documented interactions for team evaluation and continuous improvement.</li>
+                                </ul>
+                            </div>
+
+                            <div id="job-thematic" class="job-detail hidden p-4 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold text-gray-900">Business Development & Sales Intern (Remote)</h3>
+                                <p class="text-md font-medium text-blue-700 mb-3">Thematic - USA</p>
+                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
+                                    <li>Conducted online research and presented findings in clear, well-organized formats.</li>
+                                    <li>Assisted in team coordination through virtual tools, contributing to support business growth strategies.</li>
+                                    <li>Engaged with international creators, enhancing cross-cultural communication skills.</li>
+                                </ul>
+                            </div>
+
+                            <div id="job-realtor" class="job-detail hidden p-4 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold text-gray-900">Site Manager</h3>
+                                <p class="text-md font-medium text-blue-700 mb-3">Realtor Nneka - Lagos, Nigeria</p>
+                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
+                                    <li>Oversaw daily operations and supervised contractors, gaining experience in team coordination and time-sensitive decision-making.</li>
+                                    <li>Conducted team briefings, enforced compliance, and supported organizational standards.</li>
+                                </ul>
+                            </div>
+                            
+                            <div id="job-freelance" class="job-detail hidden p-4 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold text-gray-900">Field Agent - Oil & Gas Sourcing (Freelance)</h3>
+                                <p class="text-md font-medium text-blue-700 mb-3">Nationwide, Nigeria</p>
+                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
+                                    <li>Conducted market and product research, managed correspondence, and documented supplier negotiations.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Education Page -->
+            <section id="education-content" class="page-content hidden">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">Education & Certifications</h2>
+                    <p class="text-base text-gray-700 mb-6">
+                        This final section details my formal education and the professional certifications I've earned to supplement my skills and knowledge in business, communication, and analytics.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Formal Education</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-gray-50 rounded-lg">
+                                    <h4 class="font-bold text-gray-800">Bachelor of Science - Applied Business Management</h4>
+                                    <p class="text-sm text-blue-700">Brigham Young University - Idaho (BYU-Pathway Worldwide)</p>
+                                    <p class="text-sm text-gray-500">Expected Graduation: August 2026</p>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg">
+                                    <h4 class="font-bold text-gray-800">Associate Degree - Applied Business Management</h4>
+                                    <p class="text-sm text-blue-700">Ensign College, Idaho USA</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Professional Certifications</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Business Development & Sales Certificate</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Business Sales Strategy</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">HR: Protecting Confidentiality</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Effective Listening</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Communicating with Emotional Intelligence</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Communicating Nonverbally</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Having Difficult Conversations</span>
+                                <span class="p-3 bg-gray-50 rounded-md text-sm text-gray-700">Human Resources Analytics (Coursera)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- SPA Navigation Logic ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const pageId = link.getAttribute('data-page');
+
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    link.classList.add('active');
+
+                    pages.forEach(page => {
+                        if (page.id === `${pageId}-content`) {
+                            page.classList.remove('hidden');
+                        } else {
+                            page.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // --- Skills Radar Chart Logic ---
+            const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+            const skillsData = {
+                labels: [
+                    'Communication',
+                    'Customer Experience',
+                    'Team Leadership',
+                    'Business Acumen',
+                    'Technical/Tools',
+                    'Research & Admin'
+                ],
+                datasets: [{
+                    label: 'Key Competencies',
+                    data: [5, 5, 4, 4, 4, 4], // Synthesized scores based on CV content
+                    fill: true,
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                    borderColor: 'rgba(37, 99, 235, 1)',
+                    pointBackgroundColor: 'rgba(37, 99, 235, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(37, 99, 235, 1)'
+                }]
+            };
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: skillsData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                color: '#374151'
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                max: 5,
+                                stepSize: 1,
+                                backdropColor: 'transparent',
+                                color: '#6B7280'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.r !== null) {
+                                        label += context.parsed.r + ' / 5';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- Skills Filter Logic ---
+            const filterButtons = document.querySelectorAll('.skill-filter');
+            const toolItems = document.querySelectorAll('.tool-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.getAttribute('data-filter');
+                    
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('active', 'bg-blue-100', 'text-blue-800');
+                        btn.classList.add('bg-gray-100', 'text-gray-700');
+                    });
+                    button.classList.add('active', 'bg-blue-100', 'text-blue-800');
+                    button.classList.remove('bg-gray-100', 'text-gray-700');
+
+                    toolItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.classList.remove('hidden');
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // --- Career Journey Timeline Logic ---
+            const timelineLinks = document.querySelectorAll('.timeline-link');
+            const jobDetails = document.querySelectorAll('.job-detail');
+
+            timelineLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const targetId = link.getAttribute('data-target');
+
+                    timelineLinks.forEach(tl => tl.classList.remove('active'));
+                    link.classList.add('active');
+
+                    jobDetails.forEach(detail => {
+                        if (detail.id === targetId) {
+                            detail.classList.remove('hidden');
+                        } else {
+                            detail.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // --- Set Default States ---
+            document.querySelector('.timeline-link[data-target="job-bukka"]').classList.add('active');
+            document.getElementById('job-bukka').classList.remove('hidden');
+            
+        });
+    </script>
+</body>
+</html>
