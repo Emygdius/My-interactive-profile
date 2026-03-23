@@ -10,8 +10,8 @@
     <style>
         :root {
             --bg-dark: #050505;
-            --premium-gold: #D4AF37; /* Muted Metallic Gold */
-            --premium-silver: #E5E4E2; /* Platinum Silver */
+            --premium-gold: #D4AF37;
+            --premium-silver: #E5E4E2;
         }
 
         body {
@@ -22,7 +22,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Fireworks Canvas - The Dazzle Layer */
         #fireworksCanvas {
             position: fixed;
             top: 0;
@@ -34,51 +33,44 @@
             background: var(--bg-dark);
         }
 
-        /* 3D Premium Glassmorphism */
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 32px;
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.6), 
-                inset 0 1px 1px rgba(255,255,255,0.1),
-                inset 0 -1px 20px rgba(255,255,255,0.01);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .glass-card:hover {
             border: 1px solid rgba(212, 175, 55, 0.4);
-            transform: translateY(-8px) scale(1.01);
+            transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.04);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
 
-        /* Navigation Buttons */
         .nav-link {
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             border: 1px solid rgba(255,255,255,0.05);
             color: #888;
         }
+
         .nav-link.active {
             background: white !important;
-            border: 1px solid white;
             color: black !important;
             box-shadow: 0 10px 20px rgba(255,255,255,0.1);
         }
 
-        /* Timeline Items */
         .timeline-link {
             border-left: 2px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
+
         .timeline-link.active {
             border-left: 2px solid var(--premium-gold);
             background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
             color: white !important;
         }
 
-        /* Typography */
         .premium-heading {
             background: linear-gradient(180deg, #FFFFFF 0%, #A0A0A0 100%);
             -webkit-background-clip: text;
@@ -90,7 +82,6 @@
             color: var(--premium-gold);
         }
 
-        /* Animation */
         .page-content {
             animation: fadeInScale 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
@@ -113,7 +104,6 @@
 
     <div class="container mx-auto max-w-6xl relative z-10">
         
-        <!-- HEADER -->
         <header class="mb-12 glass-card p-10 md:p-16">
             <div class="flex flex-col md:flex-row justify-between items-end gap-8">
                 <div class="text-left">
@@ -128,7 +118,6 @@
             </div>
         </header>
 
-        <!-- NAVIGATION -->
         <nav class="flex flex-wrap gap-4 mb-16">
             <button class="nav-link px-8 py-4 rounded-2xl bg-white/5 font-semibold text-xs uppercase tracking-widest active" data-page="overview">Overview</button>
             <button class="nav-link px-8 py-4 rounded-2xl bg-white/5 font-semibold text-xs uppercase tracking-widest" data-page="skills">Dashboard</button>
@@ -138,7 +127,6 @@
 
         <main id="content-area">
 
-            <!-- OVERVIEW -->
             <section id="overview-content" class="page-content">
                 <div class="glass-card p-10 md:p-16">
                     <div class="grid md:grid-cols-3 gap-16">
@@ -161,7 +149,6 @@
                 </div>
             </section>
 
-            <!-- SKILLS -->
             <section id="skills-content" class="page-content hidden">
                 <div class="glass-card p-10 md:p-16">
                     <h2 class="text-4xl font-bold premium-heading mb-16">Intelligence Dashboard</h2>
@@ -171,22 +158,18 @@
                         </div>
                         <div class="space-y-10">
                             <h3 class="text-xs uppercase tracking-[0.4em] text-gray-500 font-bold">Tool Stack</h3>
-                            <div class="flex flex-wrap gap-3">
-                                <button class="skill-filter px-6 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase bg-white text-black active" data-filter="all">All Tools</button>
-                                <button class="skill-filter px-6 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase bg-white/5 text-gray-500" data-filter="data">Analytics</button>
-                            </div>
                             <div id="tools-grid" class="grid grid-cols-1 gap-4">
-                                <div class="tool-item p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group" data-category="data">
+                                <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group">
                                     <span class="text-gray-300 font-medium">Python & Pandas</span>
-                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase">Expert</span>
+                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase tracking-widest">Advanced</span>
                                 </div>
-                                <div class="tool-item p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group" data-category="data">
-                                    <span class="text-gray-300 font-medium">Automated Web Scraping</span>
-                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase">Expert</span>
+                                <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group">
+                                    <span class="text-gray-300 font-medium">Automated Data Entry</span>
+                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase tracking-widest">Expert</span>
                                 </div>
-                                <div class="tool-item p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group" data-category="data">
-                                    <span class="text-gray-300 font-medium">Microsoft Excel (VBA)</span>
-                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase">Master</span>
+                                <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group">
+                                    <span class="text-gray-300 font-medium">CRM (Odoo / Zoho)</span>
+                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase tracking-widest">Strategic</span>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +177,6 @@
                 </div>
             </section>
 
-            <!-- CAREER JOURNEY -->
             <section id="journey-content" class="page-content hidden">
                 <div class="glass-card p-10 md:p-16">
                     <h2 class="text-4xl font-bold premium-heading mb-16">Career Timeline</h2>
@@ -205,12 +187,12 @@
                                 <p class="text-xs uppercase tracking-tighter opacity-60">Springboard USA • 2024</p>
                             </button>
                             <button class="timeline-link w-full text-left p-6 rounded-2xl text-gray-500 font-medium" data-target="job-upwork">
-                                <h4 class="text-white text-lg">Lead Freelancer</h4>
+                                <h4 class="text-white text-lg">Freelancer</h4>
                                 <p class="text-xs uppercase tracking-tighter opacity-60">Upwork Global • 2021</p>
                             </button>
-                            <button class="timeline-link w-full text-left p-6 rounded-2xl text-gray-500 font-medium" data-target="job-thematic">
-                                <h4 class="text-white text-lg">Business Intern</h4>
-                                <p class="text-xs uppercase tracking-tighter opacity-60">Thematic USA • 2024</p>
+                            <button class="timeline-link w-full text-left p-6 rounded-2xl text-gray-500 font-medium" data-target="job-bukka">
+                                <h4 class="text-white text-lg">Customer Support</h4>
+                                <p class="text-xs uppercase tracking-tighter opacity-60">Bukka • 2023</p>
                             </button>
                         </div>
 
@@ -218,21 +200,26 @@
                             <div id="job-springboard" class="job-detail space-y-8 animate-in">
                                 <div>
                                     <h3 class="text-3xl font-bold text-white mb-2">Data Entry Specialist</h3>
-                                    <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Springboard USA • Professional Infrastructure</p>
+                                    <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Springboard USA • High Accuracy Infrastructure</p>
                                 </div>
                                 <ul class="space-y-6 text-gray-400 font-light text-lg">
-                                    <li class="flex gap-4"><span class="text-white">/</span> Executing high-precision data architecture for mission-critical initiatives.</li>
-                                    <li class="flex gap-4"><span class="text-white">/</span> Overseeing the integrity of massive datasets with 100% verification rates.</li>
-                                    <li class="flex gap-4"><span class="text-white">/</span> Optimizing pipeline efficiency through custom processing frameworks.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Executing high-precision data entry for mission-critical business initiatives.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Managing and verifying complex datasets to ensure 100% accuracy.</li>
                                 </ul>
                             </div>
-                            <!-- Other jobs follow the same structure but are hidden initially -->
                             <div id="job-upwork" class="job-detail hidden space-y-8 animate-in">
-                                <h3 class="text-3xl font-bold text-white mb-2">Lead Data & Automation</h3>
-                                <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Upwork Freelance • Global Clients</p>
+                                <h3 class="text-3xl font-bold text-white mb-2">Freelance Data Expert</h3>
+                                <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Upwork • Global Lead Generation</p>
                                 <ul class="space-y-6 text-gray-400 font-light text-lg">
-                                    <li class="flex gap-4"><span class="text-white">/</span> Architecting custom Python scripts for high-volume data extraction.</li>
-                                    <li class="flex gap-4"><span class="text-white">/</span> Reducing manual redundancy by 90% across various client projects.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Developing custom Python automation for large-scale data extraction.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Delivering 90% reduction in manual processing times for international clients.</li>
+                                </ul>
+                            </div>
+                            <div id="job-bukka" class="job-detail hidden space-y-8 animate-in">
+                                <h3 class="text-3xl font-bold text-white mb-2">Support Agent</h3>
+                                <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Bukka Hospitality Limited</p>
+                                <ul class="space-y-6 text-gray-400 font-light text-lg">
+                                    <li class="flex gap-4"><span class="text-white">/</span> Utilizing CRM tools to analyze and resolve customer challenges.</li>
                                 </ul>
                             </div>
                         </div>
@@ -240,7 +227,6 @@
                 </div>
             </section>
 
-            <!-- EDUCATION -->
             <section id="education-content" class="page-content hidden">
                 <div class="glass-card p-10 md:p-16">
                     <h2 class="text-4xl font-bold premium-heading mb-16">Qualifications</h2>
@@ -250,16 +236,16 @@
                                 <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-4 block font-bold">University</span>
                                 <h4 class="font-bold text-2xl text-white mb-2">B.Sc. Applied Business Management</h4>
                                 <p class="text-gray-400 font-light">BYU-Pathway Worldwide</p>
-                                <p class="text-xs text-gray-600 mt-4 uppercase">Completion Set for 2026</p>
+                                <p class="text-xs text-gray-600 mt-4 uppercase">Expected Graduation: 2026</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 gap-4">
                             <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
-                                <span class="text-gray-300 font-medium">HR Analytics</span>
+                                <span class="text-gray-300 font-medium">HR Analytics Specialist</span>
                                 <span class="text-[10px] text-white opacity-40 uppercase">Coursera</span>
                             </div>
                             <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
-                                <span class="text-gray-300 font-medium">Python for Automation</span>
+                                <span class="text-gray-300 font-medium">Business Strategy</span>
                                 <span class="text-[10px] text-white opacity-40 uppercase">Professional</span>
                             </div>
                         </div>
@@ -271,7 +257,6 @@
     </div>
 
     <script>
-        // --- Radar Chart ---
         let skillsChart = null;
         function initChart() {
             if (skillsChart) skillsChart.destroy();
@@ -282,9 +267,8 @@
                     labels: ['Accuracy', 'Automation', 'Analysis', 'Strategy', 'Precision', 'Research'],
                     datasets: [{
                         data: [5, 4.8, 4.5, 4, 5, 4.7],
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        backgroundColor: 'rgba(212, 175, 55, 0.1)',
                         borderColor: '#D4AF37',
-                        pointBackgroundColor: '#fff',
                         borderWidth: 1.5,
                         pointRadius: 3
                     }]
@@ -297,7 +281,7 @@
                             angleLines: { color: 'rgba(255, 255, 255, 0.05)' },
                             grid: { color: 'rgba(255, 255, 255, 0.05)' },
                             pointLabels: { color: '#666', font: { size: 9, weight: '700' } },
-                            ticks: { display: false, stepSize: 1 }
+                            ticks: { display: false }
                         }
                     },
                     plugins: { legend: { display: false } }
@@ -305,35 +289,28 @@
             });
         }
 
-        // --- Navigation ---
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
-                const page = link.dataset.page;
                 document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
                 link.classList.add('active');
                 document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-                document.getElementById(`${page}-content`).classList.remove('hidden');
-                if(page === 'skills') setTimeout(initChart, 100);
+                document.getElementById(`${link.dataset.page}-content`).classList.remove('hidden');
+                if(link.dataset.page === 'skills') setTimeout(initChart, 100);
             });
         });
 
-        // --- Timeline ---
         document.querySelectorAll('.timeline-link').forEach(link => {
             link.addEventListener('click', () => {
-                const target = link.dataset.target;
                 document.querySelectorAll('.timeline-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 document.querySelectorAll('.job-detail').forEach(d => d.classList.add('hidden'));
-                document.getElementById(target).classList.remove('hidden');
+                document.getElementById(link.dataset.target).classList.remove('hidden');
             });
         });
 
-        // --- Fireworks Physics ---
         const canvas = document.getElementById('fireworksCanvas');
         const fctx = canvas.getContext('2d');
-        let fw, fh;
-        let particles = [];
-        let fireworks = [];
+        let fw, fh, particles = [], fireworks = [];
 
         function resize() {
             fw = canvas.width = window.innerWidth;
@@ -370,7 +347,7 @@
                 if(this.vel.y >= 0 && !this.exploded) {
                     this.exploded = true;
                     for(let i=0; i<120; i++) {
-                        const a = Math.random()*7; const s = Math.random()*6+1;
+                        const a = Math.random()*7, s = Math.random()*6+1;
                         particles.push(new Particle(this.x, this.y, this.color, {x:Math.cos(a)*s, y:Math.sin(a)*s}));
                     }
                 }
@@ -384,6 +361,7 @@
         }
 
         function loop() {
+            fctx.globalAlpha = 1;
             fctx.fillStyle = 'rgba(5,5,5,0.3)'; fctx.fillRect(0,0,fw,fh);
             if(Math.random() < 0.015) fireworks.push(new Firework());
             fireworks = fireworks.filter(f => { f.update(); f.draw(); return !f.exploded; });
