@@ -6,253 +6,261 @@
     <title>Interactive Profile | Adams Wisdom Ekene</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      /* --- Custom Colors --- */
-      .bg-deep-purple {
-        background-color: #301e4b; /* Your requested color */
-      }
-      .text-royal-gold {
-        color: #FFC300; /* Rich Gold */
-      }
-      .bg-royal-gold-light {
-        background-color: #FFF3CC; /* Light Gold/Cream */
-      }
-      .border-royal-gold {
-        border-color: #FFC300;
-      }
-      
-      /* --- Layout & Animation --- */
-      .chart-container {
-        position: relative;
-        width: 100%;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 350px;
-        max-height: 400px;
-      }
-      @media (min-width: 768px) {
-        .chart-container {
-          height: 400px;
+        :root {
+            --bg-dark: #050505;
+            --premium-gold: #D4AF37; /* Muted Metallic Gold */
+            --premium-silver: #E5E4E2; /* Platinum Silver */
         }
-      }
-      .page-content {
-        animation: fadeIn 0.5s ease-in-out;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      /* --- Navigation --- */
-      .nav-link.active {
-        background-color: #301e4b; 
-        color: #FFC300; /* Gold text on Deep Purple background */
-      }
-      .timeline-link.active {
-        border-color: #FFC300;
-        background-color: #FFFBEB; 
-      }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Fireworks Canvas - The Dazzle Layer */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: var(--bg-dark);
+        }
+
+        /* 3D Premium Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.6), 
+                inset 0 1px 1px rgba(255,255,255,0.1),
+                inset 0 -1px 20px rgba(255,255,255,0.01);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            transform: translateY(-8px) scale(1.01);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        /* Navigation Buttons */
+        .nav-link {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: #888;
+        }
+        .nav-link.active {
+            background: white !important;
+            border: 1px solid white;
+            color: black !important;
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        /* Timeline Items */
+        .timeline-link {
+            border-left: 2px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .timeline-link.active {
+            border-left: 2px solid var(--premium-gold);
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
+            color: white !important;
+        }
+
+        /* Typography */
+        .premium-heading {
+            background: linear-gradient(180deg, #FFFFFF 0%, #A0A0A0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        .gold-accent {
+            color: var(--premium-gold);
+        }
+
+        /* Animation */
+        .page-content {
+            animation: fadeInScale 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.98) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 380px;
+            width: 100%;
+        }
     </style>
 </head>
-<body class="font-sans bg-deep-purple text-gray-800 leading-relaxed">
+<body class="p-4 md:p-12">
 
-    <div class="container mx-auto p-4 py-8 md:p-12 max-w-6xl">
+    <canvas id="fireworksCanvas"></canvas>
 
-        <header class="mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div>
-                    <h1 class="text-4xl font-bold text-white">Adams Wisdom Ekene</h1>
-                    <p class="text-xl text-royal-gold font-medium">Data Entry Specialist | Business Management | Automation Enthusiast</p>
+    <div class="container mx-auto max-w-6xl relative z-10">
+        
+        <!-- HEADER -->
+        <header class="mb-12 glass-card p-10 md:p-16">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+                <div class="text-left">
+                    <h1 class="text-6xl font-bold premium-heading mb-4">Adams Wisdom Ekene</h1>
+                    <p class="text-xl gold-accent font-light tracking-[0.15em] uppercase text-sm">Data Entry Specialist • Business Management • Automation</p>
                 </div>
-                <div class="text-right mt-4 md:mt-0 text-sm text-gray-200">
-                    <a href="mailto:Wisdomadams14@gmail.com" class="block hover:text-royal-gold">Wisdomadams14@gmail.com</a>
-                    <a href="tel:+2349025340002" class="block hover:text-royal-gold">+234 902 534 0002</a>
-                    <p class="text-gray-400">Lagos, Nigeria</p>
+                <div class="text-left md:text-right space-y-2 border-l md:border-l-0 md:border-r border-white/10 px-6">
+                    <a href="mailto:Wisdomadams14@gmail.com" class="block text-gray-400 hover:text-white transition text-sm">Wisdomadams14@gmail.com</a>
+                    <a href="tel:+2349025340002" class="block text-gray-400 hover:text-white transition text-sm">+234 902 534 0002</a>
+                    <p class="text-gray-600 text-[10px] tracking-widest uppercase mt-2">Lagos, Nigeria</p>
                 </div>
             </div>
         </header>
 
-        <nav class="flex flex-wrap items-center gap-2 bg-white rounded-lg shadow-lg p-3 mb-8">
-            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150 active" data-page="overview">Overview</button>
-            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150" data-page="skills">Skills Dashboard</button>
-            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150" data-page="journey">Career Journey</button>
-            <button class="nav-link text-sm md:text-base py-2 px-4 font-medium rounded-md text-gray-700 hover:bg-gray-100 transition duration-150" data-page="education">Education & Certs</button>
+        <!-- NAVIGATION -->
+        <nav class="flex flex-wrap gap-4 mb-16">
+            <button class="nav-link px-8 py-4 rounded-2xl bg-white/5 font-semibold text-xs uppercase tracking-widest active" data-page="overview">Overview</button>
+            <button class="nav-link px-8 py-4 rounded-2xl bg-white/5 font-semibold text-xs uppercase tracking-widest" data-page="skills">Dashboard</button>
+            <button class="nav-link px-8 py-4 rounded-2xl bg-white/5 font-semibold text-xs uppercase tracking-widest" data-page="journey">Journey</button>
+            <button class="nav-link px-8 py-4 rounded-2xl bg-white/5 font-semibold text-xs uppercase tracking-widest" data-page="education">Certifications</button>
         </nav>
 
         <main id="content-area">
 
+            <!-- OVERVIEW -->
             <section id="overview-content" class="page-content">
-                <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
-                    <h2 class="text-2xl font-bold text-royal-gold mb-4">Professional Summary</h2>
-                    <p class="text-base text-gray-700">
-                        Detail-oriented BYU-Pathway student blending strong business acumen with self-taught data automation and extraction skills. I specialize in handling, cleaning, and verifying large datasets to ensure high accuracy. Eager to leverage this technical foundation and my robust customer service background to drive efficiency and support mission-critical data initiatives.
-                    </p>
-                    <p class="mt-4 text-gray-700">
-                        Highly motivated, adaptable, and skilled in team leadership, cross-functional communication, and technical problem-solving. My professional goal is to bridge the gap between accurate technical processes and overall business efficiency.
-                    </p>
-                </div>
-            </section>
-
-            <section id="skills-content" class="page-content hidden">
-                   <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
-                        <h2 class="text-2xl font-bold text-royal-gold mb-4">Skills Dashboard</h2>
-                        <p class="text-base text-gray-700 mb-6">
-                            The chart visualizes my strengths across major business and technical functions. Use the filters below to explore specific software, tools, and technical languages.
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mb-3">Key Competencies</h3>
-                                <div class="chart-container">
-                                    <canvas id="skillsRadarChart"></canvas>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mb-3">Tool Proficiency</h3>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <button class="skill-filter py-1 px-3 bg-royal-gold-light text-gray-900 rounded-full text-sm font-medium active" data-filter="all">All Tools</button>
-                                    <button class="skill-filter py-1 px-3 bg-gray-100 text-gray-700 rounded-full text-sm font-medium" data-filter="data">Data Tech & Code</button>
-                                    <button class="skill-filter py-1 px-3 bg-gray-100 text-gray-700 rounded-full text-sm font-medium" data-filter="crm">CRM / Admin</button>
-                                    <button class="skill-filter py-1 px-3 bg-gray-100 text-gray-700 rounded-full text-sm font-medium" data-filter="office">Office/Productivity</button>
-                                </div>
-                                <div id="tools-grid" class="grid grid-cols-2 gap-x-4 gap-y-2">
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="data">Python (Intermediate)</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="data">Web Scraping (BeautifulSoup)</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="data">Data Cleaning (Pandas)</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="data">Automated Data Entry</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="data">Git / GitHub</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="data">API Integration (Gemini/OpenAI)</span>
-                                    
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="crm">Odoo</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="crm">Zoho</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="crm">HubSpot</span>
-                                    
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Microsoft Excel (Advanced)</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Microsoft Word</span>
-                                    <span class="tool-item p-2 bg-gray-50 rounded" data-category="office">Google Workspace</span>
-                                </div>
-                            </div>
+                <div class="glass-card p-10 md:p-16">
+                    <div class="grid md:grid-cols-3 gap-16">
+                        <div class="md:col-span-2 space-y-10">
+                            <h2 class="text-4xl font-bold premium-heading">Professional Summary</h2>
+                            <p class="text-xl text-gray-400 font-light leading-relaxed">
+                                Detail-oriented <span class="text-white font-medium underline underline-offset-8 decoration-white/20">BYU-Pathway student</span> blending strong business acumen with self-taught data automation.
+                            </p>
+                            <p class="text-lg text-gray-500 leading-relaxed font-light">
+                                Currently serving as a <span class="text-white">Data Entry Specialist with Springboard USA</span> and a lead freelancer on <span class="text-white">Upwork</span>, I specialize in the architecture and verification of high-integrity datasets.
+                            </p>
                         </div>
-                   </div>
-            </section>
-
-            <section id="journey-content" class="page-content hidden">
-                <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
-                    <h2 class="text-2xl font-bold text-royal-gold mb-4">Interactive Career Journey</h2>
-                    <p class="text-base text-gray-700 mb-6">
-                        Click on any role in the timeline on the left to see detailed responsibilities and achievements. The Freelance Data Expert role highlights key automation and data verification projects.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        
-                        <div class="md:col-span-1">
-                            <div id="timeline-nav" class="space-y-4 relative before:absolute before:inset-0 before:w-0.5 before:bg-gray-300 before:left-3.5">
-                                
-                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-gray-50" data-target="job-bukka">
-                                    <div class="absolute w-4 h-4 bg-gray-300 rounded-full left-1.5 top-5 border-2 border-white"></div>
-                                    <h4 class="font-semibold text-gray-800">Customer Support Agent</h4>
-                                    <p class="text-sm text-gray-500">2023 - 2025</p>
-                                </button>
-                                
-                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-gray-50" data-target="job-thematic">
-                                    <div class="absolute w-4 h-4 bg-gray-300 rounded-full left-1.5 top-5 border-2 border-white"></div>
-                                    <h4 class="font-semibold text-gray-800">Business Development Intern</h4>
-                                    <p class="text-sm text-gray-500">Mar 2024 - Apr 2024</p>
-                                </button>
-
-                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-gray-50" data-target="job-realtor">
-                                    <div class="absolute w-4 h-4 bg-gray-300 rounded-full left-1.5 top-5 border-2 border-white"></div>
-                                    <h4 class="font-semibold text-gray-800">Site Manager</h4>
-                                    <p class="text-sm text-gray-500">2022 - 2023</p>
-                                </button>
-
-                                <button class="timeline-link w-full text-left relative pl-10 pr-4 py-3 bg-white rounded-md border-l-4 border-transparent hover:bg-gray-50" data-target="job-freelance">
-                                    <div class="absolute w-4 h-4 bg-gray-300 rounded-full left-1.5 top-5 border-2 border-white"></div>
-                                    <h4 class="font-semibold text-gray-800">Freelance Data Automation Expert</h4>
-                                    <p class="text-sm text-gray-500">2021 - Present</p>
-                                </button>
-
-                            </div>
-                        </div>
-
-                        <div id="journey-details" class="md:col-span-2">
-                            
-                            <div id="job-bukka" class="job-detail p-4 bg-gray-50 rounded-lg">
-                                <h3 class="text-xl font-bold text-gray-900">Customer Support Agent</h3>
-                                <p class="text-md font-medium text-royal-gold mb-3">Bukka Hospitality Limited - Lagos, Nigeria</p>
-                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
-                                    <li>Provided frontline support through phone, email, and chat channels, emphasizing empathy and clarity.</li>
-                                    <li>Leveraged CRM tools (Odoo/Zoho) to analyze customer complaints, providing data-driven feedback to management.</li>
-                                    <li>Collaborated with internal teams to resolve customer issues and improve service quality.</li>
-                                </ul>
-                            </div>
-
-                            <div id="job-thematic" class="job-detail hidden p-4 bg-gray-50 rounded-lg">
-                                <h3 class="text-xl font-bold text-gray-900">Business Development & Sales Intern (Remote)</h3>
-                                <p class="text-md font-medium text-royal-gold mb-3">Thematic - USA</p>
-                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
-                                    <li>Conducted extensive web research and data gathering to support business growth strategies.</li>
-                                    <li>Assisted in team coordination through virtual tools, contributing to support business growth strategies.</li>
-                                    <li>Utilized virtual collaboration tools to coordinate with international teams for seamless remote operations.</li>
-                                </ul>
-                            </div>
-
-                            <div id="job-realtor" class="job-detail hidden p-4 bg-gray-50 rounded-lg">
-                                <h3 class="text-xl font-bold text-gray-900">Site Manager</h3>
-                                <p class="text-md font-medium text-royal-gold mb-3">Realtor Nneka - Lagos, Nigeria</p>
-                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
-                                    <li>Oversaw daily operations and supervised contractors, gaining experience in team coordination and time-sensitive decision-making.</li>
-                                    <li>Managed daily operations and optimized resource allocation to ensure projects met deadlines.</li>
-                                </ul>
-                            </div>
-                            
-                            <div id="job-freelance" class="job-detail hidden p-4 bg-gray-50 rounded-lg">
-                                <h3 class="text-xl font-bold text-gray-900">Freelance Data Automation Expert</h3>
-                                <p class="text-md font-medium text-royal-gold mb-3">Web Scraping & Data Extraction Projects - Remote</p>
-                                <ul class="list-disc list-outside pl-5 space-y-2 text-gray-700">
-                                    <li>Developed automation scripts (Python, BeautifulSoup) to extract large, complex datasets from Real Estate and E-commerce platforms.</li>
-                                    <li>Automated the cleaning and formatting of raw data, delivering organized Excel/CSV reports to clients.</li>
-                                    <li>Reduced manual data entry time for clients by up to 90% through efficient data pipeline creation.</li>
-                                </ul>
-                            </div>
-
+                        <div class="bg-white/5 p-10 rounded-[40px] border border-white/5 flex flex-col justify-center">
+                            <span class="text-[10px] uppercase tracking-[0.3em] text-gray-600 mb-6 font-bold">Philosophy</span>
+                            <p class="text-gray-300 italic font-light text-lg">
+                                "Bridging the gap between technical precision and scalable business efficiency."
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
-            
-            <section id="education-content" class="page-content hidden">
-                <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
-                    <h2 class="text-2xl font-bold text-royal-gold mb-4">Education & Certifications</h2>
-                    <p class="text-base text-gray-700 mb-6">
-                        This section details my formal education and the professional certifications I've earned to supplement my skills and knowledge in business, communication, and analytics.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Formal Education</h3>
-                            <div class="space-y-4">
-                                <div class="p-4 bg-gray-50 rounded-lg">
-                                    <h4 class="font-bold text-gray-800">Bachelor of Science - Applied Business Management</h4>
-                                    <p class="text-sm text-royal-gold">Brigham Young University - Idaho (BYU-Pathway Worldwide)</p>
-                                    <p class="text-sm text-gray-500">Expected Graduation: August 2026</p>
+
+            <!-- SKILLS -->
+            <section id="skills-content" class="page-content hidden">
+                <div class="glass-card p-10 md:p-16">
+                    <h2 class="text-4xl font-bold premium-heading mb-16">Intelligence Dashboard</h2>
+                    <div class="grid md:grid-cols-2 gap-20 items-center">
+                        <div class="chart-container">
+                            <canvas id="skillsRadarChart"></canvas>
+                        </div>
+                        <div class="space-y-10">
+                            <h3 class="text-xs uppercase tracking-[0.4em] text-gray-500 font-bold">Tool Stack</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="skill-filter px-6 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase bg-white text-black active" data-filter="all">All Tools</button>
+                                <button class="skill-filter px-6 py-2 rounded-full text-[10px] font-bold tracking-widest uppercase bg-white/5 text-gray-500" data-filter="data">Analytics</button>
+                            </div>
+                            <div id="tools-grid" class="grid grid-cols-1 gap-4">
+                                <div class="tool-item p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group" data-category="data">
+                                    <span class="text-gray-300 font-medium">Python & Pandas</span>
+                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase">Expert</span>
                                 </div>
-                                <div class="p-4 bg-gray-50 rounded-lg">
-                                    <h4 class="font-bold text-gray-800">Associate Degree - Applied Business Management</h4>
-                                    <p class="text-sm text-royal-gold">Ensign College, Idaho USA</p>
+                                <div class="tool-item p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group" data-category="data">
+                                    <span class="text-gray-300 font-medium">Automated Web Scraping</span>
+                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase">Expert</span>
+                                </div>
+                                <div class="tool-item p-6 bg-white/5 rounded-2xl border border-white/5 flex justify-between items-center group" data-category="data">
+                                    <span class="text-gray-300 font-medium">Microsoft Excel (VBA)</span>
+                                    <span class="text-[10px] text-gray-600 group-hover:text-white transition uppercase">Master</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
 
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Professional Certifications</h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <span class="p-3 bg-royal-gold-light rounded-md text-sm text-gray-700">Human Resources Analytics (Coursera)</span>
-                                <span class="p-3 bg-royal-gold-light rounded-md text-sm text-gray-700">Business Development & Sales Certificate</span>
-                                <span class="p-3 bg-royal-gold-light rounded-md text-sm text-gray-700">Business Sales Strategy</span>
-                                <span class="p-3 bg-royal-gold-light rounded-md text-sm text-gray-700">Python for Beginners (Self-Taught)</span>
-                                <span class="p-3 bg-royal-gold-light rounded-md text-sm text-gray-700">HR: Protecting Confidentiality</span>
-                                <span class="p-3 bg-royal-gold-light rounded-md text-sm text-gray-700">Communicating with Emotional Intelligence</span>
+            <!-- CAREER JOURNEY -->
+            <section id="journey-content" class="page-content hidden">
+                <div class="glass-card p-10 md:p-16">
+                    <h2 class="text-4xl font-bold premium-heading mb-16">Career Timeline</h2>
+                    <div class="grid md:grid-cols-3 gap-16">
+                        <div id="timeline-nav" class="space-y-4">
+                            <button class="timeline-link w-full text-left p-6 rounded-2xl text-gray-500 font-medium active" data-target="job-springboard">
+                                <h4 class="text-white text-lg">Data Specialist</h4>
+                                <p class="text-xs uppercase tracking-tighter opacity-60">Springboard USA • 2024</p>
+                            </button>
+                            <button class="timeline-link w-full text-left p-6 rounded-2xl text-gray-500 font-medium" data-target="job-upwork">
+                                <h4 class="text-white text-lg">Lead Freelancer</h4>
+                                <p class="text-xs uppercase tracking-tighter opacity-60">Upwork Global • 2021</p>
+                            </button>
+                            <button class="timeline-link w-full text-left p-6 rounded-2xl text-gray-500 font-medium" data-target="job-thematic">
+                                <h4 class="text-white text-lg">Business Intern</h4>
+                                <p class="text-xs uppercase tracking-tighter opacity-60">Thematic USA • 2024</p>
+                            </button>
+                        </div>
+
+                        <div id="journey-details" class="md:col-span-2">
+                            <div id="job-springboard" class="job-detail space-y-8 animate-in">
+                                <div>
+                                    <h3 class="text-3xl font-bold text-white mb-2">Data Entry Specialist</h3>
+                                    <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Springboard USA • Professional Infrastructure</p>
+                                </div>
+                                <ul class="space-y-6 text-gray-400 font-light text-lg">
+                                    <li class="flex gap-4"><span class="text-white">/</span> Executing high-precision data architecture for mission-critical initiatives.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Overseeing the integrity of massive datasets with 100% verification rates.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Optimizing pipeline efficiency through custom processing frameworks.</li>
+                                </ul>
+                            </div>
+                            <!-- Other jobs follow the same structure but are hidden initially -->
+                            <div id="job-upwork" class="job-detail hidden space-y-8 animate-in">
+                                <h3 class="text-3xl font-bold text-white mb-2">Lead Data & Automation</h3>
+                                <p class="text-gray-500 uppercase text-xs tracking-[0.2em]">Upwork Freelance • Global Clients</p>
+                                <ul class="space-y-6 text-gray-400 font-light text-lg">
+                                    <li class="flex gap-4"><span class="text-white">/</span> Architecting custom Python scripts for high-volume data extraction.</li>
+                                    <li class="flex gap-4"><span class="text-white">/</span> Reducing manual redundancy by 90% across various client projects.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EDUCATION -->
+            <section id="education-content" class="page-content hidden">
+                <div class="glass-card p-10 md:p-16">
+                    <h2 class="text-4xl font-bold premium-heading mb-16">Qualifications</h2>
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-8">
+                            <div class="p-10 bg-white/5 rounded-[40px] border border-white/5">
+                                <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-4 block font-bold">University</span>
+                                <h4 class="font-bold text-2xl text-white mb-2">B.Sc. Applied Business Management</h4>
+                                <p class="text-gray-400 font-light">BYU-Pathway Worldwide</p>
+                                <p class="text-xs text-gray-600 mt-4 uppercase">Completion Set for 2026</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
+                                <span class="text-gray-300 font-medium">HR Analytics</span>
+                                <span class="text-[10px] text-white opacity-40 uppercase">Coursera</span>
+                            </div>
+                            <div class="p-6 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
+                                <span class="text-gray-300 font-medium">Python for Automation</span>
+                                <span class="text-[10px] text-white opacity-40 uppercase">Professional</span>
                             </div>
                         </div>
                     </div>
@@ -263,166 +271,126 @@
     </div>
 
     <script>
-        // Store the chart object globally so we can check if it exists
+        // --- Radar Chart ---
         let skillsChart = null;
-
-        const skillsDataConfig = {
-            labels: [
-                'Communication',
-                'Customer Experience',
-                'Team Leadership',
-                'Data Accuracy/Entry', 
-                'Automation/Coding',
-                'Business Acumen'
-            ],
-            datasets: [{
-                label: 'Key Competencies',
-                // Scores adjusted for a non-flat appearance (example data)
-                data: [5, 4, 3, 5, 4, 4], 
-                fill: true,
-                // Royal Gold color theme
-                backgroundColor: 'rgba(255, 195, 0, 0.3)', 
-                borderColor: '#FFC300', 
-                pointBackgroundColor: '#FFC300', 
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: '#FFC300'
-            }]
-        };
-
-        function initializeChart() {
-            if (skillsChart) {
-                // If chart exists, destroy it before redrawing to fix issues
-                skillsChart.destroy();
-            }
-
+        function initChart() {
+            if (skillsChart) skillsChart.destroy();
             const ctx = document.getElementById('skillsRadarChart').getContext('2d');
             skillsChart = new Chart(ctx, {
                 type: 'radar',
-                data: skillsDataConfig,
+                data: {
+                    labels: ['Accuracy', 'Automation', 'Analysis', 'Strategy', 'Precision', 'Research'],
+                    datasets: [{
+                        data: [5, 4.8, 4.5, 4, 5, 4.7],
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        borderColor: '#D4AF37',
+                        pointBackgroundColor: '#fff',
+                        borderWidth: 1.5,
+                        pointRadius: 3
+                    }]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: {
-                                font: { size: 12, weight: 'bold' },
-                                color: '#374151'
-                            },
-                            ticks: {
-                                beginAtZero: true,
-                                max: 5,
-                                stepSize: 1,
-                                backdropColor: 'transparent',
-                                color: '#6B7280'
-                            }
+                            angleLines: { color: 'rgba(255, 255, 255, 0.05)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            pointLabels: { color: '#666', font: { size: 9, weight: '700' } },
+                            ticks: { display: false, stepSize: 1 }
                         }
                     },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) { label += ': '; }
-                                    if (context.parsed.r !== null) { label += context.parsed.r + ' / 5'; }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- SPA Navigation Logic ---
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pages = document.querySelectorAll('.page-content');
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    const pageId = link.getAttribute('data-page');
-
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    link.classList.add('active');
-
-                    pages.forEach(page => {
-                        if (page.id === `${pageId}-content`) {
-                            page.classList.remove('hidden');
-                             // **FIX:** Re-initialize chart ONLY when Skills tab is shown
-                            if (pageId === 'skills') {
-                                initializeChart();
-                            }
-                        } else {
-                            page.classList.add('hidden');
-                        }
-                    });
-                });
+        // --- Navigation ---
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const page = link.dataset.page;
+                document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+                link.classList.add('active');
+                document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+                document.getElementById(`${page}-content`).classList.remove('hidden');
+                if(page === 'skills') setTimeout(initChart, 100);
             });
-
-            // --- Skills Filter Logic (Updated colors) ---
-            const filterButtons = document.querySelectorAll('.skill-filter');
-            const toolItems = document.querySelectorAll('.tool-item');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const filter = button.getAttribute('data-filter');
-                    
-                    // Reset all buttons
-                    filterButtons.forEach(btn => {
-                        btn.classList.remove('active', 'bg-royal-gold-light', 'text-gray-900');
-                        btn.classList.add('bg-gray-100', 'text-gray-700');
-                    });
-                    
-                    // Activate clicked button (Gold colors)
-                    button.classList.add('active', 'bg-royal-gold-light', 'text-gray-900');
-                    button.classList.remove('bg-gray-100', 'text-gray-700');
-
-                    toolItems.forEach(item => {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.classList.remove('hidden');
-                        } else {
-                            item.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-            // --- Career Journey Timeline Logic ---
-            const timelineLinks = document.querySelectorAll('.timeline-link');
-            const jobDetails = document.querySelectorAll('.job-detail');
-
-            timelineLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    const targetId = link.getAttribute('data-target');
-
-                    timelineLinks.forEach(tl => tl.classList.remove('active'));
-                    link.classList.add('active');
-
-                    jobDetails.forEach(detail => {
-                        if (detail.id === targetId) {
-                            detail.classList.remove('hidden');
-                        } else {
-                            detail.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-            // --- Set Default States ---
-            // Set first tab as active default
-            document.querySelector('.nav-link[data-page="overview"]').classList.add('active');
-            
-            // Set first job in timeline as active default
-            document.querySelector('.timeline-link[data-target="job-bukka"]').classList.add('active');
-            document.getElementById('job-bukka').classList.remove('hidden');
-            
         });
+
+        // --- Timeline ---
+        document.querySelectorAll('.timeline-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const target = link.dataset.target;
+                document.querySelectorAll('.timeline-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                document.querySelectorAll('.job-detail').forEach(d => d.classList.add('hidden'));
+                document.getElementById(target).classList.remove('hidden');
+            });
+        });
+
+        // --- Fireworks Physics ---
+        const canvas = document.getElementById('fireworksCanvas');
+        const fctx = canvas.getContext('2d');
+        let fw, fh;
+        let particles = [];
+        let fireworks = [];
+
+        function resize() {
+            fw = canvas.width = window.innerWidth;
+            fh = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, color, vel) {
+                this.x = x; this.y = y; this.color = color; this.vel = vel;
+                this.alpha = 1; this.life = 0.005 + Math.random() * 0.01;
+            }
+            update() {
+                this.vel.x *= 0.98; this.vel.y *= 0.98; this.vel.y += 0.04;
+                this.x += this.vel.x; this.y += this.vel.y; this.alpha -= this.life;
+            }
+            draw() {
+                fctx.globalAlpha = this.alpha;
+                fctx.fillStyle = this.color;
+                fctx.beginPath(); fctx.arc(this.x, this.y, 0.8, 0, 7); fctx.fill();
+            }
+        }
+
+        class Firework {
+            constructor() {
+                this.x = Math.random() * fw; this.y = fh;
+                this.color = ['#D4AF37', '#FFFFFF', '#E5E4E2'][Math.floor(Math.random()*3)];
+                this.vel = { x: (Math.random()-0.5)*1.5, y: -(Math.random()*4+10) };
+                this.exploded = false;
+            }
+            update() {
+                this.x += this.vel.x; this.y += this.vel.y; this.vel.y += 0.04;
+                if(this.vel.y >= 0 && !this.exploded) {
+                    this.exploded = true;
+                    for(let i=0; i<120; i++) {
+                        const a = Math.random()*7; const s = Math.random()*6+1;
+                        particles.push(new Particle(this.x, this.y, this.color, {x:Math.cos(a)*s, y:Math.sin(a)*s}));
+                    }
+                }
+            }
+            draw() {
+                if(!this.exploded) {
+                    fctx.fillStyle = this.color;
+                    fctx.beginPath(); fctx.arc(this.x, this.y, 1.5, 0, 7); fctx.fill();
+                }
+            }
+        }
+
+        function loop() {
+            fctx.fillStyle = 'rgba(5,5,5,0.3)'; fctx.fillRect(0,0,fw,fh);
+            if(Math.random() < 0.015) fireworks.push(new Firework());
+            fireworks = fireworks.filter(f => { f.update(); f.draw(); return !f.exploded; });
+            particles = particles.filter(p => { p.update(); p.draw(); return p.alpha > 0; });
+            requestAnimationFrame(loop);
+        }
+        loop();
     </script>
 </body>
-
 </html>
